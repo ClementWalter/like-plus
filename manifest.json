@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Like+",
-  "version": "0.2",
+  "version": "0.3",
   "description": "Get more friends, instantly.",
   "background": {
     "scripts": [
