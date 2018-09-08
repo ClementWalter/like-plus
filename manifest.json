@@ -19,8 +19,7 @@
         "*://*.facebook.com/*"
       ],
       "js": [
-        "content.js",
-        "getRndInteger.js"
+        "content.js"
       ],
       "all_frames": true
     }
