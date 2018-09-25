@@ -3,20 +3,25 @@ let moodValue = 50;
 let intervalId;
 let originalLikes = [];
 let randomLikes = [];
+let innerHtmlLikes = [];
 let specialLiker = '';
 let averageUpLikeInterval = 10; // interval in seconds
 let setIntervalDelay = 0.5; // delay in seconds
 
 const setNumberOfLikes = (moodValue, specialLiker, setIntervalDelay, averageUpLikeInterval) => () => {
-  let minMood = parseFloat(moodValue) / 2.0;
-  let maxMood = parseFloat(moodValue) * 2.0;
-  const moodGenerator = () => getRndInteger(minMood, maxMood);
-  const likeSpans = getLikeSpans();
-  originalLikes = updateOriginalLikes(likeSpans, originalLikes);
-  const likeIncreaser = randomLikeIncrease(averageUpLikeInterval, setIntervalDelay);
-  randomLikes = updateRandomLikes(randomLikes, originalLikes, moodGenerator, likeIncreaser);
-  likeSpans
-    .map((span, i) => span.children[0].innerHTML = getInnerHtml(specialLiker, randomLikes[i]));
+  chrome.storage.sync.get(["enabled"], function(result) {
+    let enabled = result.enabled;
+    let minMood = parseFloat(moodValue) / 2.0;
+    let maxMood = parseFloat(moodValue) * 2.0;
+    const moodGenerator = () => getRndInteger(minMood, maxMood);
+    const likeSpans = getLikeSpans();
+    originalLikes = updateOriginalLikes(likeSpans, originalLikes);
+    const likeIncreaser = randomLikeIncrease(averageUpLikeInterval, setIntervalDelay);
+    randomLikes = updateRandomLikes(randomLikes, originalLikes, moodGenerator, likeIncreaser);
+    innerHtmlLikes = enabled ? randomLikes : originalLikes;
+    likeSpans
+      .map((span, i) => span.children[0].innerHTML = getInnerHtml(specialLiker, innerHtmlLikes[i]));
+  })
 };
 
 const getRndInteger = (min, max) => Math.floor(Math.random() * (max - min) + min);
