@@ -29,13 +29,10 @@ function updateAverageUplikeInterval(event) {
 }
 
 function updateStatus(event) {
-  console.log(event)
   enabled = event.target.checked;
   if (enabled) {
-    console.log('set icon enabled')
     chrome.browserAction.setIcon({path: 'like16.png'}, () => {})
   } else {
-    console.log('set icon disabled')
     chrome.browserAction.setIcon({path: 'like16disabled.png'}, () => {})
   }
   chrome.storage.sync.set({enabled}, function() {
@@ -49,7 +46,6 @@ document.addEventListener("DOMContentLoaded", function() {
   document.querySelector('input[name="average-uplike-interval"]').onchange = updateAverageUplikeInterval;
   document.querySelector('input[name="enabled"]').onchange = updateStatus;
   chrome.storage.sync.get(['moodValue', 'facebookTabIds', 'specialLiker', 'averageUpLikeInterval', 'enabled'], function(result) {
-    console.log('result', result);
     facebookTabIds = result.facebookTabIds || facebookTabIds;
     moodValue = result.moodValue || moodValue;
     specialLiker = result.specialLiker || specialLiker;
